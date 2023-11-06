@@ -1,0 +1,217 @@
+<html> 
+<head> 
+<img id="t1" width="60" height="40" src="t1.png" alt="t" hidden>
+<img id="t2" width="60" height="40" src="t2.png" alt="t" hidden>
+<img id="t3" width="60" height="40" src="t3.png" alt="t" hidden>
+<img id="b1" width="60" height="60" src="b_star.png" alt="t" hidden>
+<img id="b2" width="60" height="60" src="b_mill.png" alt="t" hidden>
+<img id="b3" width="60" height="60" src="b_flower.png" alt="t" hidden>
+<img id="b4" width="60" height="60" src="b_spiral.png" alt="t" hidden>
+
+<link rel="stylesheet" href="zolw.css">
+
+</head> 
+                
+<body style="background-color:green;zoom: 0.93;"> 
+<div id = "boxes">
+<h1 id="title">Turtle Graphics</h1>
+<div id = "leftbox" style="text-align:center;">
+    <h2>MENU</h2>
+    <A href="./">Main Page</A><br>
+    <A href="zolw_demo.html">Demo shapes</A><br>
+    <A href="zolwv3.html">User Input</A><br>
+    <A href="zolw_polygons.html">Regular Polygons</A><br>
+    <A href="zolw_graf1.html">Graph</A><br>
+    <A href="zolw_sierpinski.html">Sierpiński triangle</A><br>
+    <A href="zolw_koch2.html">Koch Curve</A><br>
+    <A href="wire_frame.html">Wire Frame Game</A><br>
+    <h2>Choose theme:</h2>
+    <button class="btn" id="theme1" onclick="theme1();"><img width="60" height="40" src="t1.png"></button>
+    <button class="btn" id="theme2" onclick="theme2();"><img width="60" height="40" src="t2.png"></button>
+    <button class="btn" id="theme3" onclick="theme3();"><img width="60" height="40" src="t3.png"></button>
+</div> 
+                        
+<div id = "middlebox" style="text-align:center;">
+    <canvas id="myCanvas" width="470" height="470" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+</div>
+
+<div id = "rightbox" style="text-align:center;">
+    <h2 id="subtitle">Wire Frame Game</h2>
+    <p>Use arrows to move turtle to black square.<br>Avoid red squares.<br><br></p>
+    `
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣻⣿⣿⣿⣁⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣀⣤⣤⣤⣤⣠⡶⣿⡏⠉⠉⠉⠉⢙⣿⢷⣦⣤⣤⣤⣤⣀⡀⠀⠀⠀
+⠀⣴⣿⣿⣿⣿⣿⣿⡟⠀⠈⣻⣶⣶⣶⣶⣿⠃⠀⠙⣿⣿⣿⣿⣿⣿⣷
+⠀⠛⠛⠛⠛⠛⠋⣿⠀⠀⣼⠏⠀⠀⠀⠀⠘⢧⡀⠀⢻⡏⠛⠛⠛⠛⠛⠀
+⠀⠀⠀⠀⠀⠀⠀⠸⣿⠀⠈⠻⣦⡀⠀⠀⢀⣴⠟⠁⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⠀⣸⡿⠒⠒⢿⣏⠀⠀⠀⣾⠃⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⡀⠰⣿⡀⠀⠀⢀⣽⠗⠀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣄⠈⠁⠀⠀⠈⠁⣠⣾⣿⣤⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⡿⠿⢶⣤⣤⡶⠾⠿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣿⣿⡿⠟⠉⠀⠀⠀⠻⡿⠁⠀⠀⠈⠛⠿⣿⣿⡆⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀
+    `
+</div>
+</div>
+
+  <script>
+    var t1 = document.getElementById("t1")
+    
+    function theme1(){t1 = document.getElementById("t1");
+                        document.body.style.backgroundColor = "green";
+                        document.getElementById("leftbox").style.backgroundColor = "green";
+                        document.getElementById("middlebox").style.backgroundColor = "green";
+                        document.getElementById("rightbox").style.backgroundColor = "green";
+                        document.getElementById("title").style.color = "black";} 
+    function theme2(){t1 = document.getElementById("t2");
+                        document.body.style.backgroundColor = "#F7F1E5";
+                        document.getElementById("leftbox").style.backgroundColor = "#898121";
+                        document.getElementById("middlebox").style.backgroundColor = "#E7B10A";
+                        document.getElementById("rightbox").style.backgroundColor = "#898121";
+                        document.getElementById("title").style.color = "#4C4B16";}
+    function theme3(){t1 = document.getElementById("t3");
+                        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("leftbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("middlebox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("rightbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("title").style.color = "#" + Math.floor(Math.random()*16777215).toString(16);}
+
+    
+
+  const canvas = document.getElementById('myCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const player = {
+    x: 30,
+    y: 30,
+    width: 30,
+    height: 30,
+    rotationAngle: 0, // Add rotation angle
+  };
+
+  const target = {
+    x: 420,
+    y: 420,
+    width: 20,
+    height: 20,
+  };
+
+  const obstacles = [];
+
+  for (let i = 0; i < 4; i++) {
+    const x = Math.floor(Math.random() * 471);
+    const y = Math.floor(Math.random() * 471);
+    const width = Math.floor(Math.random() * 100) + 10;
+    const height = Math.floor(Math.random() * 100) + 10;
+
+    obstacles.push({ x, y, width, height });
+  }
+
+  console.log(obstacles);
+
+  function drawPlayer() {
+    ctx.save(); 
+    ctx.translate(player.x + player.width / 2, player.y + player.height / 2); 
+    ctx.rotate((player.rotationAngle * Math.PI) / 180); 
+    ctx.drawImage(t1, -player.width / 2, -player.height / 2, player.width, player.height); 
+    ctx.restore(); 
+  }
+
+  function drawTarget() {
+    ctx.fillStyle = 'black';
+    ctx.fillRect(target.x, target.y, target.width, target.height);
+  }
+
+  function drawObstacles() {
+    ctx.fillStyle = 'red';
+    for (const obstacle of obstacles) {
+      ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+    }
+  }
+
+  function drawGame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawPlayer();
+    drawTarget();
+    drawObstacles();
+  }
+
+  function checkCollision() {
+    for (const obstacle of obstacles) {
+      if (
+        player.x < obstacle.x + obstacle.width &&
+        player.x + player.width > obstacle.x &&
+        player.y < obstacle.y + obstacle.height &&
+        player.y + player.height > obstacle.y
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function movePlayer(event) {
+    if (event.key === 'ArrowUp') {
+      player.y -= 5;
+      player.rotationAngle = -90; 
+    } else if (event.key === 'ArrowDown') {
+      player.y += 5;
+      player.rotationAngle = 90; 
+    } else if (event.key === 'ArrowLeft') {
+      player.x -= 5;
+      player.rotationAngle = 180; 
+    } else if (event.key === 'ArrowRight') {
+      player.x += 5;
+      player.rotationAngle = 0; 
+    }
+
+    if (player.x < 0) {
+      player.x = 0;
+    } else if (player.x + player.width > canvas.width) {
+      player.x = canvas.width - player.width;
+    }
+
+    if (player.y < 0) {
+      player.y = 0;
+    } else if (player.y + player.height > canvas.height) {
+      player.y = canvas.height - player.height;
+    }
+
+    if (checkCollision()) {
+      alert('You lost!!!\n𓆝 𓆟 𓆞 𓆝 𓆟 ');
+      resetGame();
+    }
+
+    if (
+      player.x < target.x + target.width &&
+      player.x + player.width > target.x &&
+      player.y < target.y + target.height &&
+      player.y + player.height > target.y
+    ) {
+      alert('𓆉𓆉You won!!!𓆉𓆉') ;
+      resetGame();
+    }
+
+    drawGame();
+  }
+
+  function resetGame() {
+    player.x = 50;
+    player.y = 50;
+    player.rotationAngle = 0;
+    drawGame();
+  }
+
+  drawGame();
+  window.addEventListener('keydown', movePlayer);
+
+  </script>
+</body>
+</html>

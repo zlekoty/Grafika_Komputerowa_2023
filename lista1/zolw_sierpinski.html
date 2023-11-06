@@ -1,0 +1,141 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<img id="t1" width="60" height="40" src="t1.png" alt="t" hidden>
+<img id="t2" width="60" height="40" src="t2.png" alt="t" hidden>
+<img id="t3" width="60" height="40" src="t3.png" alt="t" hidden>
+<link rel="stylesheet" href="zolw.css">
+
+</head> 
+                
+<body style="background-color:green;zoom: 0.9;"> 
+<div id = "boxes">
+<h1 id="title">Turtle Graphics</h1>
+<div id = "leftbox" style="text-align:center;">
+    <h2>MENU</h2>
+    <A href="./">Main Page</A><br>
+    <A href="zolw_demo.html">Demo shapes</A><br>
+    <A href="zolwv3.html">User Input</A><br>
+    <A href="zolw_polygons.html">Regular Polygons</A><br>
+    <A href="zolw_graf1.html">Graph</A><br>
+    <A href="zolw_sierpinski.html">Sierpiński triangle</A><br>
+    <A href="zolw_koch2.html">Koch Curve</A><br>
+    <A href="wire_frame.html">Wire Frame Game</A><br>
+    <h2>Choose theme:</h2>
+    <button class="btn" id="theme1" onclick="theme1();"><img width="60" height="40" src="t1.png"></button>
+    <button class="btn" id="theme2" onclick="theme2();"><img width="60" height="40" src="t2.png"></button>
+    <button class="btn" id="theme3" onclick="theme3();"><img width="60" height="40" src="t3.png"></button>
+</div> 
+                        
+<div id = "middlebox" style="text-align:center;">
+    <canvas id="myCanvas" width="470" height="470" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+</div>
+
+<div id = "rightbox" style="text-align:center;">
+    <h2>Sierpiński Triangle</h2>
+    You can select the degree of the Sierpiński triangle and it will appear on canvas.
+    <h3>Degree:</h3>
+    <button id="s1" onclick="sc1();">·:*¨༺ 1 ༻¨*:·</button><br><br>
+    <button id="s2" onclick="sc2();">·:*¨༺ 2 ༻¨*:·</button><br><br>
+    <button id="s3" onclick="sc3();">·:*¨༺ 3 ༻¨*:·</button><br><br>
+    <button id="s4" onclick="sc4();">·:*¨༺ 4 ༻¨*:·</button><br><br>
+    <button id="s5" onclick="sc5();">·:*¨༺ 5 ༻¨*:·</button><br><br>
+    <button id="s6" onclick="sc6();">·:*¨༺ 6 ༻¨*:·</button><br><br>
+</div>
+</div>
+
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var x = c.width/2;
+    var y = c.height/2;
+    var alpha = Math.PI/6;
+    var pen = 0;
+    ctx.moveTo(x,y);
+
+    function theme1(){t1 = document.getElementById("t1");
+                        document.body.style.backgroundColor = "green";
+                        document.getElementById("leftbox").style.backgroundColor = "green";
+                        document.getElementById("middlebox").style.backgroundColor = "green";
+                        document.getElementById("rightbox").style.backgroundColor = "green";
+                        document.getElementById("title").style.color = "black";} 
+    function theme2(){t1 = document.getElementById("t2");
+                        document.body.style.backgroundColor = "#F7F1E5";
+                        document.getElementById("leftbox").style.backgroundColor = "#898121";
+                        document.getElementById("middlebox").style.backgroundColor = "#E7B10A";
+                        document.getElementById("rightbox").style.backgroundColor = "#898121";
+                        document.getElementById("title").style.color = "#4C4B16";}
+    function theme3(){t1 = document.getElementById("t3");
+                        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("leftbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("middlebox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("rightbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("title").style.color = "#" + Math.floor(Math.random()*16777215).toString(16);}
+
+
+    function clear1() {
+        x = c.width/2;;
+        y = c.height/2;;
+        alpha = Math.PI / 6;
+        pen = 0;
+        ctx.clearRect(0, 0, c.width, c.height); 
+        ctx.beginPath(); 
+        ctx.moveTo(x, y); 
+    }
+
+
+    function pen_up() {
+      pen = 1;
+    }
+
+    function pen_down() {
+      pen = 0;
+    }
+
+    function turn(beta) {
+      var rad = (beta * Math.PI) / 180;
+      alpha += rad;
+    }
+
+    function forward(d) {
+      var new_x = x + d * Math.cos(alpha);
+      var new_y = y + d * Math.sin(alpha);
+
+      if (pen == 0) {
+        ctx.lineTo(new_x, new_y);
+        ctx.stroke();
+      } else {
+        ctx.moveTo(new_x, new_y);
+        ctx.stroke();
+      }
+
+      x = new_x;
+      y = new_y;
+    }
+
+    function sierpinski(len,n){
+        if(n==0){
+            return
+        }else{
+            for(let i = 0; i<3; i++){
+                forward(len);
+                sierpinski(len/2,n-1);
+                turn(180);
+                forward(len);
+                turn(180);
+                turn(120)
+            }
+    }}
+
+    function sc1(){clear1();sierpinski(100,1)};
+    function sc2(){clear1();sierpinski(100,2)};
+    function sc3(){clear1();sierpinski(100,3)};
+    function sc4(){clear1();sierpinski(100,4)};
+    function sc5(){clear1();sierpinski(100,5)};
+    function sc6(){clear1();sierpinski(100,6)};
+
+    </script>
+</body> 
+</html>

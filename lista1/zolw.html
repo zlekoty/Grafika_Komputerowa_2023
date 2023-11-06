@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div style="text-align:center;">
+      <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;">
+        Your browser does not support the HTML canvas tag.
+      </canvas>
+      <img id="t1" width="60" height="40" src="t1.png" alt="t1" hidden>
+      <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var x = c.width / 2;
+        var y = c.height / 2;
+        var alpha = 0;
+        var pen = 0;
+        var dx = 1;
+        var t1 = document.getElementById("t1");
+        var imageCenterX = t1.width / 2;
+        var imageCenterY = t1.height / 2;
+
+        x -= imageCenterX;
+        y -= imageCenterY;
+
+        function clean() {
+          ctx.clearRect(0, 0, c.width, c.height);
+        }
+
+        function pen_up() {
+          pen = 1;
+        }
+
+        function pen_down() {
+          pen = 0;
+        }
+
+        function rotateImage(image, centerX, centerY, angle) {
+          var radians = (angle * Math.PI) / 180;
+          ctx.translate(centerX, centerY);
+          ctx.rotate(-radians);
+          ctx.drawImage(image, -imageCenterX, -imageCenterY, t1.width, t1.height);
+          ctx.rotate(radians);
+          ctx.translate(-centerX, -centerY);
+        }
+
+        function turn(beta, callback) {
+            var n = beta / dx;
+            var i = 0;
+
+            function rot() {
+                if (i < n) {
+                  clean();
+                rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+                i++;
+                alpha = (alpha + dx); 
+                setTimeout(rot, 1);
+                } else {
+                callback(); 
+                }
+            }
+
+            rot();
+            }
+
+            function forward(d, callback) {
+            var n = d / dx;
+            var i = 0;
+            var radians = -(alpha * Math.PI) / 180;
+
+            function drawPoint() {
+                if (i < n) {
+                var new_x = x + dx * Math.cos(radians);
+                var new_y = y + dx * Math.sin(radians);
+                clean();
+
+                if (pen == 0) {
+                    ctx.lineTo(new_x + imageCenterX, new_y + imageCenterY);
+                    ctx.stroke();
+                } else {
+                    ctx.moveTo(new_x + imageCenterX, new_y + imageCenterY);
+                }
+
+                x = new_x;
+                y = new_y;
+                
+                var imageX = x - imageCenterX;
+                var imageY = y - imageCenterY;
+
+                rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+
+                i++;
+                setTimeout(drawPoint, 1);
+                } else {
+                callback(); 
+                }
+            }
+
+            drawPoint();
+            }
+
+        function runFunctionsSequentially() {
+          forward(100, function () {
+            turn(90, function () {
+              forward(100, function () {turn(90, function () {
+              forward(100, function () {turn(90, function () {
+              forward(100, function () {turn(90, function () {
+              forward(100, function () {});});});});});});});});});}
+        runFunctionsSequentially(); 
+      </script>
+    </div>
+  </body>
+</html>

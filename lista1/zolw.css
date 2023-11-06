@@ -1,0 +1,50 @@
+#leftbox {
+  float:left; 
+  background:green;
+  width:25%;
+  height:500px;
+}
+#middlebox{
+  float:left; 
+  background:green;
+  width:50%;
+  height:500px;
+}
+#rightbox{
+  float:right;
+  background:green;
+  width:25%;
+  height:500px;
+}
+h1{
+  color:black;
+  text-align:center;
+}
+
+canvas{
+  padding: 0;
+  margin: auto;
+  display: block;
+  position: absolute;
+  top: 35px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.btn { 
+  cursor: pointer; 
+  border: 1px solid #ffffff; 
+  background-color: transparent; 
+  height: 40px; 
+  width: 80px; 
+} 
+
+.btn2 { 
+  cursor: pointer; 
+  border: 1px solid #ffffff; 
+  background-color: transparent; 
+  height: 80px; 
+  width: 80px;
+  padding: 10px;
+} 

@@ -1,0 +1,194 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<img id="t1" width="60" height="40" src="t1.png" alt="t" hidden>
+<img id="t2" width="60" height="40" src="t2.png" alt="t" hidden>
+<img id="t3" width="60" height="40" src="t3.png" alt="t" hidden>
+<link rel="stylesheet" href="zolw.css">
+
+</head> 
+                
+<body style="background-color:green;zoom: 0.9;"> 
+<div id = "boxes">
+<h1 id="title">Turtle Graphics</h1>
+<div id = "leftbox" style="text-align:center;">
+    <h2>MENU</h2>
+    <A href="./">Main Page</A><br>
+    <A href="zolw_demo.html">Demo shapes</A><br>
+    <A href="zolwv3.html">User Input</A><br>
+    <A href="zolw_polygons.html">Regular Polygons</A><br>
+    <A href="zolw_graf1.html">Graph</A><br>
+    <A href="zolw_sierpinski.html">Sierpiński triangle</A><br>
+    <A href="zolw_koch2.html">Koch Curve</A><br>
+    <A href="wire_frame.html">Wire Frame Game</A><br>
+    <h2>Choose theme:</h2>
+    <button class="btn" id="theme1" onclick="theme1();"><img width="60" height="40" src="t1.png"></button>
+    <button class="btn" id="theme2" onclick="theme2();"><img width="60" height="40" src="t2.png"></button>
+    <button class="btn" id="theme3" onclick="theme3();"><img width="60" height="40" src="t3.png"></button>
+</div> 
+                        
+<div id = "middlebox" style="text-align:center;">
+    <canvas id="myCanvas" width="470" height="470" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+</div>
+
+<div id = "rightbox" style="text-align:center;">
+    <h2 id="subtitle">Graph</h2>
+    <p>You can create complete or bipartite graph here with node number in range [2,50].</p>
+    <h3>Graph type:</h3>
+    <b><p id="output1">Complete</p></b>
+    <button id="graph1" onclick="g1();">Complete graph</button>
+    <button id="graph2" onclick="g2();">Bipartite graph</button>
+    <h3>Number of nodes:</h3>
+    <input type="text" id="myTextBox1" placeholder="Degree"><br>
+    <button id="go">GO!</button>
+    <p id="output2" style="color:red;"></p>
+</div>
+</div>
+
+<script>
+    var t1 = document.getElementById("t1")
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var centreX = c.width / 2;
+    var centreY = c.height / 2;
+    var alpha = 0;
+    var pen = 0;
+    var dx = 1;
+    ctx.moveTo(centreX,centreY);
+    var g = "g1";
+
+    function theme1(){t1 = document.getElementById("t1");
+                        document.body.style.backgroundColor = "green";
+                        document.getElementById("leftbox").style.backgroundColor = "green";
+                        document.getElementById("middlebox").style.backgroundColor = "green";
+                        document.getElementById("rightbox").style.backgroundColor = "green";
+                        document.getElementById("title").style.color = "black";} 
+    function theme2(){t1 = document.getElementById("t2");
+                        document.body.style.backgroundColor = "#F7F1E5";
+                        document.getElementById("leftbox").style.backgroundColor = "#898121";
+                        document.getElementById("middlebox").style.backgroundColor = "#E7B10A";
+                        document.getElementById("rightbox").style.backgroundColor = "#898121";
+                        document.getElementById("title").style.color = "#4C4B16";}
+    function theme3(){t1 = document.getElementById("t3");
+                        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("leftbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("middlebox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("rightbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("title").style.color = "#" + Math.floor(Math.random()*16777215).toString(16);}
+
+
+    
+    var output1 = document.getElementById("output1");
+    function g1(){g = "g1"; output1.textContent = "Complete"}
+    function g2(){g = "g2"; output1.textContent = "Bipartite"}
+
+    function clear() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      centreX = c.width / 2;
+      centreY = c.height / 2;
+    }
+
+    function node(x1,y1){
+        ctx.beginPath();
+        ctx.arc(x1, y1, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+    
+    function graph(n){
+    var arr_x = []
+    var arr_y = []
+    var angle = 2*Math.PI/n;
+
+    for (let i = 0; i < n; i++)
+    {
+        x = centreX + 200 * Math.sin(i * angle);
+        y = centreY + 200 * Math.cos(i * angle);
+        node(x,y)
+        arr_x.push(x);
+        arr_y.push(y);
+    }
+
+    for(let i =0; i<n; i++){
+        x1 = arr_x[i];
+        y1 = arr_y[i];
+        ctx.moveTo(x1,y1);
+        for(let j = 0; j<n; j++){
+            x2= arr_x[j];
+            y2= arr_y[j];
+            ctx.lineTo(x2,y2);
+            ctx.stroke();
+            ctx.moveTo(x1,y1);
+        }
+    }
+    }
+
+
+    function graph2(n){
+        var up = parseInt(n/2);
+        var down = n - up;
+
+        var x_min = 50;
+        var x_max = 450;
+
+        var y_up = 150;
+        var y_down = 350;
+
+        var arr_x_up = [];
+        var arr_x_down = [];
+
+
+        for (let i = 0; i < up; i++)
+        {
+            x = x_min + i * 400/up;
+            node(x,y_up);
+            arr_x_up.push(x);
+        }
+
+        for (let i = 0; i < down; i++)
+        {
+            x = x_min + i * 400/up;
+            node(x,y_down);
+            arr_x_down.push(x);
+        }
+
+        for(let i =0; i<up; i++){
+        x1 = arr_x_up[i];
+        y1 = y_up;
+        ctx.moveTo(x1,y1);
+        for(let j = 0; j<down; j++){
+            x2= arr_x_down[j];
+            y2= y_down;
+            ctx.lineTo(x2,y2);
+            ctx.stroke();
+            ctx.moveTo(x1,y1);
+        }
+        }
+    }
+
+    var button = document.getElementById("go");
+    var textBox1 = document.getElementById("myTextBox1");
+    var output2 = document.getElementById("output2");
+
+    button.addEventListener("click", function() {
+        clear()
+        var n = textBox1.value;
+            try {
+                n = parseInt(n);
+                if (!isNaN(n) && n >= 2 && n <= 50) {
+                    if(g == "g1"){graph(n);}
+                    else{graph2(n);}
+                    output2.textContent = "";
+                } else {
+                    output2.textContent = "Wrong input!!!";
+                }
+            }
+            catch (error) {
+                output2.textContent = "Wrong input";
+            }});
+</script>
+</body> 
+</html>				 
+            

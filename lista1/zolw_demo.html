@@ -1,0 +1,288 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<img id="t1" width="60" height="40" src="t1.png" alt="t" hidden>
+<img id="t2" width="60" height="40" src="t2.png" alt="t" hidden>
+<img id="t3" width="60" height="40" src="t3.png" alt="t" hidden>
+<img id="b1" width="60" height="60" src="b_star.png" alt="t" hidden>
+<img id="b2" width="60" height="60" src="b_mill.png" alt="t" hidden>
+<img id="b3" width="60" height="60" src="b_flower.png" alt="t" hidden>
+<img id="b4" width="60" height="60" src="b_spiral.png" alt="t" hidden>
+
+<link rel="stylesheet" href="zolw.css">
+
+</head> 
+                
+<body style="background-color:green;zoom: 0.9;"> 
+<div id = "boxes">
+<h1 id="title">Turtle Graphics</h1>
+<div id = "leftbox" style="text-align:center;">
+    <h2>MENU</h2>
+    <A href="./">Main Page</A><br>
+    <A href="zolw_demo.html">Demo shapes</A><br>
+    <A href="zolwv3.html">User Input</A><br>
+    <A href="zolw_polygons.html">Regular Polygons</A><br>
+    <A href="zolw_graf1.html">Graph</A><br>
+    <A href="zolw_sierpinski.html">Sierpiński triangle</A><br>
+    <A href="zolw_koch2.html">Koch Curve</A><br>
+    <A href="wire_frame.html">Wire Frame Game</A><br>
+    <h2>Choose theme:</h2>
+    <button class="btn" id="theme1" onclick="theme1();"><img width="60" height="40" src="t1.png"></button>
+    <button class="btn" id="theme2" onclick="theme2();"><img width="60" height="40" src="t2.png"></button>
+    <button class="btn" id="theme3" onclick="theme3();"><img width="60" height="40" src="t3.png"></button>
+</div> 
+                        
+<div id = "middlebox" style="text-align:center;">
+    <canvas id="myCanvas" width="470" height="470" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+</div>
+
+<div id = "rightbox" style="text-align:center;">
+    <h2 id="subtitle">Demo shapes</h2>
+    <p>Some examples of graphics you can do with turtle. You can clean canvas after turtle finish its work or mix shapes to create abstraction.</p>
+    <h3>Examples:</h3>
+    <button class="btn2" id="star" onclick="drawStar();"><img width="60" height="60" src="b_star.png"></button>
+    <button class="btn2" id="windmill" onclick="windmill();"><img width="60" height="60" src="b_mill.png"></button><br>
+    <button class="btn2" id="flower" onclick="flower(0, function () {});"><img width="60" height="60" src="b_flower.png"></button>
+    <button class="btn2" id="spiral" onclick="spiral(8,5)"><img width="60" height="60" src="b_spiral.png"></button><br><br>
+    <button id="clear" onclick="clear_canvas();">Clear</button>
+</div>
+</div>
+
+<script>
+    var t1 = document.getElementById("t1");
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var x = c.width / 2;
+    var y = c.height / 2;
+    var alpha = 0;
+    var pen = 0;
+    var dx = 3;
+    var imageCenterX = t1.width / 2;
+    var imageCenterY = t1.height / 2;
+
+    x -= imageCenterX;
+    y -= imageCenterY;
+
+    function theme1(){t1 = document.getElementById("t1");clean();rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+                        document.body.style.backgroundColor = "green";
+                        document.getElementById("leftbox").style.backgroundColor = "green";
+                        document.getElementById("middlebox").style.backgroundColor = "green";
+                        document.getElementById("rightbox").style.backgroundColor = "green";
+                        document.getElementById("title").style.color = "black";} 
+    function theme2(){t1 = document.getElementById("t2");clean();rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+                        document.body.style.backgroundColor = "#F7F1E5";
+                        document.getElementById("leftbox").style.backgroundColor = "#898121";
+                        document.getElementById("middlebox").style.backgroundColor = "#E7B10A";
+                        document.getElementById("rightbox").style.backgroundColor = "#898121";
+                        document.getElementById("title").style.color = "#4C4B16";}
+    function theme3(){t1 = document.getElementById("t3");clean();rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+                        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("leftbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("middlebox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("rightbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("title").style.color = "#" + Math.floor(Math.random()*16777215).toString(16);}
+
+
+
+    function clean() {
+      ctx.clearRect(0, 0, c.width, c.height);
+    }
+
+    function clear_canvas() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.beginPath()
+        alpha = 0;
+        x = c.width / 2;
+        y = c.height / 2;
+        imageCenterX = t1.width / 2;
+        imageCenterY = t1.height / 2;
+        x -= imageCenterX;
+        y -= imageCenterY;
+        pen = 0;
+        turn(90)
+    }
+
+    function pen_up() {
+      pen = 1;
+      ctx.stroke();
+    }
+
+    function pen_down() {
+      pen = 0;
+      ctx.stroke();
+    }
+
+    function rotateImage(image, centerX, centerY, angle) {
+      var radians = (angle * Math.PI) / 180;
+      ctx.translate(centerX, centerY);
+      ctx.rotate(-radians);
+      ctx.drawImage(image, -imageCenterX, -imageCenterY, t1.width, t1.height);
+      ctx.stroke();
+      ctx.rotate(radians);
+      ctx.translate(-centerX, -centerY);
+    }
+
+    function turn(beta, callback) {
+        var n = beta / dx;
+        var i = 0;
+
+        function rot() {
+            if (i < n) {
+            ctx.clearRect(0, 0, c.width, c.height);
+            rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+            i++;
+            alpha = (alpha + dx); 
+            setTimeout(rot, 1);
+            } else {
+            callback(); 
+            }
+        }
+
+        rot();
+        }
+
+    function forward(d, callback) {
+        var n = d / dx;
+        var i = 0;
+        var radians = -(alpha * Math.PI) / 180;
+
+        function drawPoint() {
+            if (i < n) {
+            var new_x = x + dx * Math.cos(radians);
+            var new_y = y + dx * Math.sin(radians);
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            if (pen == 0) {
+                ctx.lineTo(new_x + imageCenterX, new_y + imageCenterY);
+                ctx.stroke();
+            } else {
+                ctx.moveTo(new_x + imageCenterX, new_y + imageCenterY);
+                ctx.stroke();
+            }
+
+            x = new_x;
+            y = new_y;
+            
+            var imageX = x - imageCenterX;
+            var imageY = y - imageCenterY;
+
+            rotateImage(t1, x + imageCenterX, y + imageCenterY, alpha);
+
+            i++;
+            setTimeout(drawPoint, 1);
+            } else {
+            callback(); 
+            }
+        }
+
+        drawPoint();
+        }
+        
+    turn(90)
+
+    //DEMO FUNCTIONS
+
+    function drawStar() {
+            var i = 0;
+            function drawNextSide() {
+                if (i < 5) {
+                    forward(150, function() {
+                        turn(144, function() {
+                            i++;
+                            setTimeout(drawNextSide, 1);
+                        });
+                    });
+                }
+            }
+            
+            drawNextSide();
+        }
+
+    function equilateral_triangle(side, callback) {
+        var count = 0;
+
+        function draw() {
+            if (count < 3) {
+                forward(side, function () {
+                turn(120, function () {
+                    count++;
+                    setTimeout(draw, 1); 
+                });
+                });
+            } else {
+                if (typeof callback === 'function') {
+                callback();
+                }
+            }
+            }
+
+            draw();
+        }
+
+    function windmill(){
+        equilateral_triangle(100, function () {
+            turn(120, function () {
+            equilateral_triangle(100, function () {
+                turn(120, function () {
+                equilateral_triangle(100);
+                });
+            });
+            });
+        });
+    }
+
+    function flower(iteration, callback) {
+        if (iteration < 10) {
+            var innerIteration = 0;
+
+            function drawInnerPattern() {
+            if (innerIteration < 2) {
+                forward(100, function () {
+                turn(30, function () {
+                    forward(100, function () {
+                    turn(150, function () {
+                        innerIteration++;
+                        drawInnerPattern(); 
+                    });
+                    });
+                });
+                });
+            } else {
+                turn(36,callback);
+                iteration++;
+                flower(iteration, callback); 
+            }
+            }
+
+            drawInnerPattern();
+        } else {
+            if (typeof callback === 'function') {
+            callback(); 
+            }
+        }
+        }
+
+    function spiral(n, i) {
+        var x = 0;
+        var steps = 4 * n;
+
+        function nextStep(step) {
+            if (step < steps) {
+                x += i;
+                forward(x, function () {
+                    turn(90, function () {
+                        nextStep(step + 1);
+                    });
+                });
+            }
+        }
+
+        nextStep(0);
+    }
+
+    </script>
+    </body> 
+</html>				 
+            

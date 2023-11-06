@@ -1,0 +1,200 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<img id="t1" width="60" height="40" src="t1.png" alt="t" hidden>
+<img id="t2" width="60" height="40" src="t2.png" alt="t" hidden>
+<img id="t3" width="60" height="40" src="t3.png" alt="t" hidden>
+<link rel="stylesheet" href="zolw.css">
+
+</head> 
+                
+<body style="background-color:green;zoom: 0.9;"> 
+<div id = "boxes">
+<h1 id="title">Turtle Graphics</h1>
+<div id = "leftbox" style="text-align:center;">
+    <h2>MENU</h2>
+    <A href="./">Main Page</A><br>
+    <A href="zolw_demo.html">Demo shapes</A><br>
+    <A href="zolwv3.html">User Input</A><br>
+    <A href="zolw_polygons.html">Regular Polygons</A><br>
+    <A href="zolw_graf1.html">Graph</A><br>
+    <A href="zolw_sierpinski.html">Sierpiński triangle</A><br>
+    <A href="zolw_koch2.html">Koch Curve</A><br>
+    <A href="wire_frame.html">Wire Frame Game</A><br>
+    <h2>Choose theme:</h2>
+    <button class="btn" id="theme1" onclick="theme1();"><img width="60" height="40" src="t1.png"></button>
+    <button class="btn" id="theme2" onclick="theme2();"><img width="60" height="40" src="t2.png"></button>
+    <button class="btn" id="theme3" onclick="theme3();"><img width="60" height="40" src="t3.png"></button>
+</div> 
+                        
+<div id = "middlebox" style="text-align:center;">
+    <canvas id="myCanvas" width="470" height="470" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+</div>
+
+<div id = "rightbox" style="text-align:center;">
+    <h2>Koch Curve:</h2>
+    You can select the degree of the Koch curve and you will see it along with its mirror image along the canvas.
+    <h3>Degree:</h3>
+    <button id="k1" onclick="koch_click1();">☙ 1 ❧</button><br><br>
+    <button id="k2" onclick="koch_click2();">☙ 2 ❧</button><br><br>
+    <button id="k3" onclick="koch_click3();">☙ 3 ❧</button><br><br>
+    <button id="k4" onclick="koch_click4();">☙ 4 ❧</button><br><br>
+    <button id="k5" onclick="koch_click5();">☙ 5 ❧</button><br><br>
+</div>
+</div>
+
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var x = 0;
+    var y = 0;
+    var alpha = Math.PI/4;
+    var pen = 0;
+    ctx.moveTo(x,y);
+
+    function theme1(){t1 = document.getElementById("t1");
+                        document.body.style.backgroundColor = "green";
+                        document.getElementById("leftbox").style.backgroundColor = "green";
+                        document.getElementById("middlebox").style.backgroundColor = "green";
+                        document.getElementById("rightbox").style.backgroundColor = "green";
+                        document.getElementById("title").style.color = "black";} 
+    function theme2(){t1 = document.getElementById("t2");
+                        document.body.style.backgroundColor = "#F7F1E5";
+                        document.getElementById("leftbox").style.backgroundColor = "#898121";
+                        document.getElementById("middlebox").style.backgroundColor = "#E7B10A";
+                        document.getElementById("rightbox").style.backgroundColor = "#898121";
+                        document.getElementById("title").style.color = "#4C4B16";}
+    function theme3(){t1 = document.getElementById("t3");
+                        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("leftbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("middlebox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("rightbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("title").style.color = "#" + Math.floor(Math.random()*16777215).toString(16);}
+
+
+    function clear1() {
+        x = 0;
+        y = 0;
+        alpha = Math.PI / 4;
+        pen = 0;
+        ctx.clearRect(0, 0, c.width, c.height); 
+        ctx.beginPath(); 
+        ctx.moveTo(x, y); 
+    }
+
+
+    function pen_up() {
+      pen = 1;
+    }
+
+    function pen_down() {
+      pen = 0;
+    }
+
+    function turn(beta) {
+      var rad = (beta * Math.PI) / 180;
+      alpha += rad;
+    }
+
+    function forward(d) {
+      var new_x = x + d * Math.cos(alpha);
+      var new_y = y + d * Math.sin(alpha);
+
+      if (pen == 0) {
+        ctx.lineTo(new_x, new_y);
+        ctx.stroke();
+      } else {
+        ctx.moveTo(new_x, new_y);
+        ctx.stroke();
+      }
+
+      x = new_x;
+      y = new_y;
+    }
+
+    function koch(n, len){
+        if(n==0){
+            forward(len);
+        }else{
+            koch(n-1,len);
+            turn(60);
+            koch(n-1,len);
+            turn(-120);
+            koch(n-1,len);
+            turn(60);
+            koch(n-1,len);
+        }
+    }
+    function koch2(n, len){
+        if(n==0){
+            forward(len);
+        }else{
+            koch2(n-1,len);
+            turn(-60);
+            koch2(n-1,len);
+            turn(120);
+            koch2(n-1,len);
+            turn(-60);
+            koch2(n-1,len);
+        }
+    }
+    
+    function koch_click1(){
+        clear1()
+        var n = 1;
+        var l = 222;
+        koch(n,l);
+        x=0;
+        y=0;
+        ctx.beginPath()
+        koch2(n,l);
+    }
+
+    function koch_click2(){
+        clear1();
+        var n = 2;
+        var l = 74;
+        koch(n,l);
+        x=0;
+        y=0;
+        ctx.beginPath()
+        koch2(n,l);
+    }
+
+    function koch_click3(){
+        clear1();
+        var n = 3;
+        var l = 24.6
+        koch(n,l);
+        x=0;
+        y=0;
+        ctx.beginPath()
+        koch2(n,l);
+    }
+
+    function koch_click4(){
+        clear1();
+        var n = 4;
+        var l = 8.2;
+        koch(n,l);
+        x=0;
+        y=0;
+        ctx.beginPath()
+        koch2(n,l);
+    }
+
+    function koch_click5(){
+        clear1();
+        var n = 5;
+        var l = 2.73;
+        koch(n,l);
+        x=0;
+        y=0;
+        ctx.beginPath()
+        koch2(n,l);
+    }
+    </script>
+</body> 
+</html>
