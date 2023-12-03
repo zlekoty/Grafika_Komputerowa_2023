@@ -1,0 +1,162 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+</head> 
+                
+<body style="text-align:center"> 
+    <h1 style="font-family:Comic Sans MS">Tic Tac Toe</h1>
+    <canvas id="myCanvas" width="400" height="400">
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+
+    <p id="o" style="font-family:Comic Sans MS"> PLAYER O turn </p>
+
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.lineWidth = 2
+        var x = 0;
+        var y = 0;
+        var len_grid = c.width/3;
+        
+        function draw_grid(){
+            ctx.lineWidth = 2
+            ctx.strokeStyle = "black";
+            for(let i = 1; i<3; i++){ //grid
+                ctx.beginPath();
+                ctx.moveTo(len_grid*i,0);
+                ctx.lineTo(len_grid*i,c.width);
+                ctx.moveTo(0,len_grid*i);
+                ctx.lineTo(c.width,len_grid*i);
+                ctx.stroke();
+            }
+        }
+
+        draw_grid()
+
+        var output = document.getElementById("o");
+        var player = 1;
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "pink";
+
+        //Our game board
+        var box1 = "empty"; var box2 = "empty"; var box3 = "empty";
+        var box4 = "empty"; var box5 = "empty"; var box6 = "empty";
+        var box7 = "empty"; var box8 = "empty"; var box9 = "empty";
+
+        function restart(){
+            box1 = "empty"; box2 = "empty"; box3 = "empty";
+            box4 = "empty"; box5 = "empty"; box6 = "empty";
+            box7 = "empty"; box8 = "empty"; box9 = "empty";
+            player = 1;
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "pink";
+            output.textContent = "PLAYER O turn";
+        }
+
+
+        c.addEventListener('click', function(event) {
+            // Get the mouse coordinates relative to the canvas
+            var mouseX = event.offsetX;
+            var mouseY = event.offsetY;
+            if(mouseX>0 & mouseX<c.width/3 & mouseY>0 & mouseY<c.width/3){ //box1
+                if(box1!="empty"){
+                    return
+                }else{if(player%2!=0){box1 = "O"}else{box1 = "X"}}  
+            }
+            if(mouseX>c.width/3 & mouseX<2*c.width/3 & mouseY>0 & mouseY<c.width/3){ //box2
+                if(box2!="empty"){
+                    return
+                }else{if(player%2!=0){box2 = "O"}else{box2 = "X"}}  
+            }
+            if(mouseX>2*c.width/3 & mouseX<c.width & mouseY>0 & mouseY<c.width/3){ //box3
+                if(box3!="empty"){
+                    return
+                }else{if(player%2!=0){box3 = "O"}else{box3 = "X"}}  
+            }
+            if(mouseX>0 & mouseX<c.width/3 & mouseY>c.width/3 & mouseY<2*c.width/3){ //box4
+                if(box4!="empty"){
+                    return
+                }else{if(player%2!=0){box4 = "O"}else{box4 = "X"}}  
+            }
+            if(mouseX>c.width/3 & mouseX<2*c.width/3 & mouseY>c.width/3 & mouseY<2*c.width/3){ //box5
+                if(box5!="empty"){
+                    return
+                }else{if(player%2!=0){box5 = "O"}else{box5 = "X"}}  
+            }
+            if(mouseX>2*c.width/3 & mouseX<c.width & mouseY>c.width/3 & mouseY<2*c.width/3){ //box6
+                if(box6!="empty"){
+                    return
+                }else{if(player%2!=0){box6 = "O"}else{box6 = "X"}}  
+            }
+            if(mouseX>0 & mouseX<c.width/3 & mouseY>2*c.width/3 & mouseY<c.width){ //box7
+                if(box7!="empty"){
+                    return
+                }else{if(player%2!=0){box7 = "O"}else{box7 = "X"}}  
+            }
+            if(mouseX>c.width/3 & mouseX<2*c.width/3 & mouseY>2*c.width/3 & mouseY<c.width){ //box8
+                if(box8!="empty"){
+                    return
+                }else{if(player%2!=0){box8 = "O"}else{box8 = "X"}}  
+            }
+            if(mouseX>2*c.width/3 & mouseX<c.width & mouseY>2*c.width/3 & mouseY<c.width){ //box9
+                if(box9!="empty"){
+                    return
+                }else{if(player%2!=0){box9 = "O"}else{box9 = "X"}}  
+            }
+            
+
+            if(
+            (box1=="O" & box2=="O" & box3=="O") || (box4=="O" & box5=="O" & box6=="O") ||(box7=="O" & box8=="O" & box9=="O") ||
+            (box1=="O" & box4=="O" & box7=="O") || (box2=="O" & box5=="O" & box8=="O") ||(box3=="O" & box6=="O" & box9=="O") ||
+            (box1=="O" & box5=="O" & box9=="O") || (box3=="O" & box5=="O" & box7=="O")
+            ){
+                alert("PLAYER O won!")
+                ctx.clearRect(0, 0, c.width, c.height);
+                draw_grid()
+                restart()
+                return
+            }
+            if(
+            (box1=="X" & box2=="X" & box3=="X") || (box4=="X" & box5=="X" & box6=="X") ||(box7=="X" & box8=="X" & box9=="X") ||
+            (box1=="X" & box4=="X" & box7=="X") || (box2=="X" & box5=="X" & box8=="X") ||(box3=="X" & box6=="X" & box9=="X") ||
+            (box1=="X" & box5=="X" & box9=="X") || (box3=="X" & box5=="X" & box7=="X")
+            ){
+                alert("PLAYER X won!")
+                ctx.clearRect(0, 0, c.width, c.height);
+                draw_grid()
+                restart()
+                return
+            }
+            if(box1 != "empty" & box2 != "empty" & box3 != "empty" & box4 != "empty" & box5 != "empty" & box6 != "empty" & box7 != "empty" & box8 != "empty" & box9 != "empty"){
+                alert("DRAW!!!")
+                ctx.clearRect(0, 0, c.width, c.height);
+                draw_grid()
+                restart()
+                return
+            }
+            
+            if(player%2!=0){ // drawing O
+                ctx.strokeStyle = "pink";
+                ctx.beginPath();
+                ctx.arc(mouseX, mouseY, 40, 0, 2 * Math.PI);
+                ctx.stroke();
+                player+=1;
+                output.textContent = "PLAYER X turn"
+            }else{ // drawing X
+                const size = 30; 
+                ctx.strokeStyle = "green";
+                ctx.beginPath();
+                ctx.moveTo(mouseX - size, mouseY - size);
+                ctx.lineTo(mouseX + size, mouseY + size);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(mouseX + size, mouseY - size);
+                ctx.lineTo(mouseX - size, mouseY + size);
+                ctx.stroke();
+                player+=1;
+                output.textContent = "PLAYER O turn"
+            }
+        });
+    </script>
+</body>

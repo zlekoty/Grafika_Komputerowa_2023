@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-board"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            let shuffledCards = shuffleArray(cards);
+            let flippedCards = [];
+            let matchedPairs = 0;
+
+            const gameBoard = document.getElementById('game-board');
+
+            shuffledCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                cardElement.setAttribute('data-index', index);
+                cardElement.addEventListener('click', flipCard);
+                gameBoard.appendChild(cardElement);
+            });
+
+            function flipCard() {
+                if (flippedCards.length < 2) {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    this.textContent = shuffledCards[index];
+                    this.classList.add('flipped');
+                    flippedCards.push({ index, value: shuffledCards[index] });
+
+                    if (flippedCards.length === 2) {
+                        setTimeout(checkMatch, 500);
+                    }
+                }
+            }
+
+            function checkMatch() {
+                const [card1, card2] = flippedCards;
+                const cardsElements = document.querySelectorAll('.card');
+                
+                if (card1.value === card2.value && card1.index !== card2.index) {
+                    cardsElements[card1.index].classList.add('matched');
+                    cardsElements[card2.index].classList.add('matched');
+                    matchedPairs++;
+
+                    if (matchedPairs === cards.length / 2) {
+                        alert('Congratulations! You won!');
+                    }
+                } else {
+                    cardsElements[card1.index].textContent = '';
+                    cardsElements[card1.index].classList.remove('flipped');
+                    cardsElements[card2.index].textContent = '';
+                    cardsElements[card2.index].classList.remove('flipped');
+                }
+
+                flippedCards = [];
+            }
+
+            function shuffleArray(array) {
+                const shuffledArray = array.slice();
+                for (let i = shuffledArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+                }
+                return shuffledArray;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<img id="t1" width="60" height="40" src="t1.png" alt="t" hidden>
+<img id="t2" width="60" height="40" src="t2.png" alt="t" hidden>
+<img id="t3" width="60" height="40" src="t3.png" alt="t" hidden>
+<link rel="stylesheet" href="zolw.css">
+
+</head> 
+                
+<body style="background-color:green;zoom: 0.9;"> 
+<div id = "boxes">
+<h1 id="title">Turtle Graphics</h1>
+<div id = "leftbox" style="text-align:center;">
+    <h2>MENU</h2>
+    <A href="./">Main Page</A><br>
+    <A href="zolw_demo.html">Demo shapes</A><br>
+    <A href="zolwv3.html">User Input</A><br>
+    <A href="zolw_polygons.html">Regular Polygons</A><br>
+    <A href="zolw_graf1.html">Graph</A><br>
+    <A href="zolw_sierpinski.html">Sierpiński triangle</A><br>
+    <A href="zolw_koch2.html">Koch Curve</A><br>
+    <A href="wire_frame.html">Wire Frame Game</A><br>
+    <h2>Choose theme:</h2>
+    <button class="btn" id="theme1" onclick="theme1();"><img width="60" height="40" src="t1.png"></button>
+    <button class="btn" id="theme2" onclick="theme2();"><img width="60" height="40" src="t2.png"></button>
+    <button class="btn" id="theme3" onclick="theme3();"><img width="60" height="40" src="t3.png"></button>
+</div> 
+                        
+<div id = "middlebox" style="text-align:center;">
+    <canvas id="myCanvas" width="470" height="470" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+</div>
+
+<div id = "rightbox" style="text-align:center;">
+    <h2 id="subtitle">User Input</Inp></h2><br>
+    You can create your own drawings here by executing given commands.
+    <h3>Commands:</h3>
+    <p><i>forward(x)</i></p>
+    <p><i>turn(&alpha;)</i></p>
+    <p><i>pen_up()</i></p>
+    <p><i>pen_down()</i></p>
+    <p><i>clear()</i></p>
+    <input type="text" id="myTextBox" placeholder="Type command..."><br>
+    <button id="go" onclick="go();">GO!</button>
+    <p id="output2" style="color:red;"></p>
+</div>
+</div>
+
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var x = c.width/2;
+    var y = c.height/2;
+    var alpha = 0;
+    var pen = 0;
+    ctx.moveTo(x,y);
+
+    function theme1(){t1 = document.getElementById("t1");
+                        document.body.style.backgroundColor = "green";
+                        document.getElementById("leftbox").style.backgroundColor = "green";
+                        document.getElementById("middlebox").style.backgroundColor = "green";
+                        document.getElementById("rightbox").style.backgroundColor = "green";
+                        document.getElementById("title").style.color = "black";} 
+    function theme2(){t1 = document.getElementById("t2");
+                        document.body.style.backgroundColor = "#F7F1E5";
+                        document.getElementById("leftbox").style.backgroundColor = "#898121";
+                        document.getElementById("middlebox").style.backgroundColor = "#E7B10A";
+                        document.getElementById("rightbox").style.backgroundColor = "#898121";
+                        document.getElementById("title").style.color = "#4C4B16";}
+    function theme3(){t1 = document.getElementById("t3");
+                        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("leftbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("middlebox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("rightbox").style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                        document.getElementById("title").style.color = "#" + Math.floor(Math.random()*16777215).toString(16);}
+
+
+    function clear1() {
+        x = 0;
+        y = 0;
+        alpha = Math.PI / 4;
+        pen = 0;
+        ctx.clearRect(0, 0, c.width, c.height); 
+        ctx.beginPath(); 
+        ctx.moveTo(x, y); 
+    }
+
+
+
+
+    function pen_up() {pen = 1;}
+
+    function pen_down() {pen = 0;}
+
+    function turn(beta) {
+      var rad = (beta * Math.PI) / 180;
+      alpha += rad;
+    }
+
+    function forward(d) {
+      var new_x = x + d * Math.cos(alpha);
+      var new_y = y + d * Math.sin(alpha);
+
+      if (pen == 0) {
+        ctx.lineTo(new_x, new_y);
+        ctx.stroke();
+      } else {
+        ctx.moveTo(new_x, new_y);
+        ctx.stroke();
+      }
+
+      x = new_x;
+      y = new_y;
+    }
+
+    //L SYSTEMS
+
+    function axiom_algi(char) {
+        let ret = ""; 
+        if (char === "A") {
+            ret = "AB";
+        } else if (char === "B") {
+            ret = "A";
+        } else {
+            console.error("Invalid character: " + char);
+        }
+        return ret;
+    }
+
+    function birth_algi(str) {
+        let text = ""; 
+        for (let i = 0; i < str.length; i++) {
+            text += axiom_algi(str[i]);
+        }
+        return text;
+    }
+
+    function lsystem_algi(n, txt) {
+        let start_txt = txt; 
+        let end_txt = "";
+        for (let i = 0; i < n; i++) {
+            end_txt = birth_algi(start_txt);
+            start_txt = end_txt;
+        }
+        return end_txt;
+    }
+
+    function algi(n,txt){
+        turn(90)
+        lsyst = lsystem_algi(n,txt)
+        for (let i = 0; i < lsyst.length; i++) {
+            if(lsyst[i]=="A"){
+                forward(10);
+                turn(30);
+            }
+            if(lsyst[i]=="B"){
+                forward(10);
+                turn(-60);
+            }
+        }
+        
+    }
+
+    //algi(10,"AB")
+
+    function axiom_cantor(char) {
+        let ret = ""; 
+        if (char === "A") {
+            ret = "ABA";
+        } else if (char === "B") {
+            ret = "BBB";
+        } else {
+            console.error("Invalid character: " + char);
+        }
+        return ret;
+    }
+
+    function birth_cantor(str) {
+        let text = ""; 
+        for (let i = 0; i < str.length; i++) {
+            text += axiom_cantor(str[i]);
+        }
+        return text;
+    }
+
+    function lsystem_cantor(n, txt) {
+        let start_txt = txt; 
+        let end_txt = "";
+        for (let i = 0; i < n; i++) {
+            end_txt = birth_cantor(start_txt);
+            start_txt = end_txt;
+        }
+        return end_txt;
+    }
+
+    function cantor(n,txt){
+        lsyst = lsystem_cantor(n,txt)
+        for (let i = 0; i < lsyst.length; i++) {
+            if(lsyst[i]=="A"){
+                pen_down();
+                forward(1);
+            }
+            if(lsyst[i]=="B"){
+                pen_up()
+                forward(1);
+            }
+        }
+        
+    }
+
+//cantor(5,"A")
+
+function axiom_koch(char) {
+        let ret = ""; 
+        if (char === "F") {
+            ret = "F−F++F−F";
+        } else if (char === "+") {
+            ret = "+"
+        } else if (char === "-") {
+            ret = "-"
+        } else {
+            console.error("Invalid character: " + char);
+        }
+        return ret;
+    }
+
+    function birth_koch(str) {
+        let text = ""; 
+        for (let i = 0; i < str.length; i++) {
+            text += axiom_koch(str[i]);
+        }
+        return text;
+    }
+
+    function lsystem_koch(n, txt) {
+        let start_txt = txt; 
+        let end_txt = "";
+        for (let i = 0; i < n; i++) {
+            end_txt = birth_koch(start_txt);
+            start_txt = end_txt;
+        }
+        return end_txt;
+    }
+
+    function koch(n,txt){
+        lsyst = lsystem_koch(n,txt)
+        for (let i = 0; i < lsyst.length; i++) {
+            if(lsyst[i]=="F"){forward(10)}
+            if(lsyst[i]=="+"){turn(60)}
+            if(lsyst[i]=="-"){turn(-60)}
+        }
+        alert(lsyst)
+        
+    }
+    forward(10);
+    turn(90);
+    forward(10);
+    koch(1,"F")
+
+    </script>
+                </body> 
+            </html>				 
+            

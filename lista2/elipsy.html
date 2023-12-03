@@ -1,0 +1,33 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+</head> 
+                
+<body> 
+    <canvas id="myCanvas1" width="500" height="500" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+    <canvas id="myCanvas2" width="500" height="500" style="border:2px solid #000000;" >
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+
+    <script>
+        var a = 10; //OX
+        var b = 20; //OY
+
+        var x = 0; //starting coordinates P0
+        var y = b;
+
+        function F(x,y){ //choose pixel
+            return (b*x)**2 + (a*y)**2 - (a*b)**2 
+        }
+
+        function bresenham(){
+            let dx = 0;
+            for (let i = 0; i < 50; i++) {
+                
+            }
+        }
+
+    </script>
+</body>
